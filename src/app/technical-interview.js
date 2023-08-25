@@ -1,15 +1,10 @@
-let CAN = { firstName: "" };
-const CAT = [];
-
-class TechnicalInterview {
+class TechnicalWorkshop {
   constructor({ logger, promptProvider, questionsProvider }) {
     (this.logger = logger),
       (this.promptProvider = promptProvider),
       (this.questionsProvider = questionsProvider);
+    this.candidate = { firstName: "", lastName: "", email: "" };
   }
-
-  candidate = { ...CAN };
-  cat = CAT;
 
   addCat(label) {
     this.logger.log(`Adding ${label} in categories`);
@@ -34,13 +29,13 @@ class TechnicalInterview {
     return this.questionsProvider.load();
   }
 
-  loadQByCat(cat) {
-    const CAT = this?.loadAllQuestions().find((q) => q.label === cat);
+  loadQuestionsByCategory(category) {
+    const CAT = this?.loadAllQuestions().find((q) => q.label === category);
     return CAT?.questions;
   }
 
   run(category) {
-    const Q = this?.loadQByCat(category);
+    const Q = this?.loadQuestionsByCategory(category);
     const R = [];
 
     this.logger.log(
@@ -100,4 +95,4 @@ class TechnicalInterview {
   }
 }
 
-module.exports = TechnicalInterview;
+module.exports = TechnicalWorkshop;
