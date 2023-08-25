@@ -10,7 +10,11 @@ function runTechnicalInterview({ logger, promptProvider, questionsProvider }) {
   });
 
   technicalWorkshop.addCat("SQL");
-  technicalWorkshop.addCandidate("Toto", "Titi", "titi@mail.fr");
+  technicalWorkshop.addCandidate({
+    firstName: "Toto",
+    lastName: "Titi",
+    email: "titi@mail.fr",
+  });
 
   technicalWorkshop.run("Java");
 }

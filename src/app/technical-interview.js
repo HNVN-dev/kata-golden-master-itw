@@ -12,10 +12,11 @@ class TechnicalWorkshop {
   }
 
   addCat(label) {
+    // useless atm
     this.logger.log(`Adding ${label} in categories`);
   }
 
-  addCandidate(firstName, lastName, email) {
+  addCandidate({ firstName, lastName, email }) {
     this.logger.log(`Adding ${firstName} as candidate`);
     this.candidate = {
       firstName,
@@ -70,11 +71,15 @@ class TechnicalWorkshop {
   startInterview(currentQuestions, registeredUserAnswers) {
     currentQuestions?.forEach((currentQuestion) => {
       const answer = this.askQuestion(currentQuestion, registeredUserAnswers);
-      this.registerUserAnswer(registeredUserAnswers, currentQuestion, answer);
+      this.registerUserAnswer({
+        registeredUserAnswers,
+        question: currentQuestion,
+        answer,
+      });
     });
   }
 
-  registerUserAnswer(registeredUserAnswers, question, answer) {
+  registerUserAnswer({ registeredUserAnswers, question, answer }) {
     registeredUserAnswers.push({ question, answer });
   }
 
