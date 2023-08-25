@@ -1,16 +1,16 @@
-const {
-  FakePromptProvider,
-  SpyLogger,
-  runTechnicalInterview,
-} = require("./index");
+const { runTechnicalInterview } = require("./index");
+const SpyLogger = require("./dependencies/logger/SpyLogger");
+const FakePromptProvider = require("./dependencies/promptProvider/FakePromptProvider");
 describe("The technical workshop test harness", () => {
   const logger = new SpyLogger();
   const promptProvider = new FakePromptProvider();
-  it("should golden master", () => {
+
+  it("should display the same logs and prompts given Java category and perfect course", () => {
     runTechnicalInterview({
       logger,
       promptProvider,
     });
+
     expect(logger.args).toStrictEqual([
       "Adding SQL in categories",
       "Adding Toto as candidate",
