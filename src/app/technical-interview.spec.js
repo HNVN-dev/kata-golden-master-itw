@@ -1,14 +1,17 @@
 const { runTechnicalInterview } = require("./index");
 const SpyLogger = require("./dependencies/logger/SpyLogger");
 const FakePromptProvider = require("./dependencies/promptProvider/FakePromptProvider");
+const JsonQuestionsProvider = require("./dependencies/questionsProvider/JsonQuestionsProvider");
 describe("The technical workshop test harness", () => {
   const logger = new SpyLogger();
   const promptProvider = new FakePromptProvider();
+  const questionsProvider = new JsonQuestionsProvider();
 
   it("should display the same logs and prompts given Java category and perfect course", () => {
     runTechnicalInterview({
       logger,
       promptProvider,
+      questionsProvider,
     });
 
     expect(logger.args).toStrictEqual([

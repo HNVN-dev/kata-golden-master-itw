@@ -6,7 +6,7 @@ const Q = require("../data/categories.json");
 let CAN = { firstName: "" };
 const CAT = [];
 
-const TECHNICAL_WORKSHOP = ({ logger, promptProvider }) => {
+const TECHNICAL_WORKSHOP = ({ logger, promptProvider, questionsProvider }) => {
   return {
     candidate: { ...CAN },
     cat: CAT,
@@ -24,11 +24,11 @@ const TECHNICAL_WORKSHOP = ({ logger, promptProvider }) => {
       };
     },
     getCandidate: () => this?.candidate,
-    loadQ: () => {
-      return [...Q];
+    loadAllQuestions: () => {
+      return questionsProvider.load();
     },
     loadQByCat(cat) {
-      const CAT = this?.loadQ().find((q) => q.label === cat);
+      const CAT = this?.loadAllQuestions().find((q) => q.label === cat);
       return CAT?.questions;
     },
     run(category) {
