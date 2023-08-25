@@ -102,6 +102,7 @@ class TechnicalWorkshop {
       if (this.isValidAnswer(userAnswer)) {
         return this.validateScore(currentQuestion, score);
       }
+      return score;
     }, score);
   }
 
