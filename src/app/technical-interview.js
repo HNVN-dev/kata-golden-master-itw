@@ -1,3 +1,8 @@
+const POSSIBLE_ANSWERS = {
+  GOOD: ["t", "T"],
+  READY: "y",
+};
+
 class TechnicalWorkshop {
   constructor({ logger, promptProvider, questionsProvider }) {
     (this.logger = logger),
@@ -30,68 +35,79 @@ class TechnicalWorkshop {
   }
 
   loadQuestionsByCategory(category) {
-    const CAT = this?.loadAllQuestions().find((q) => q.label === category);
-    return CAT?.questions;
+    // TODO Extract this
+    return this?.loadAllQuestions().find((q) => q.label === category).questions;
   }
 
   run(category) {
-    const Q = this?.loadQuestionsByCategory(category);
-    const R = [];
+    const currentQuestions = this?.loadQuestionsByCategory(category);
+    const registeredAnswers = [];
 
     this.logger.log(
-      `Welcome to the interview game. You'll have ${Q?.length} questions on ${category}`
+      `Welcome to the interview game. You'll have ${currentQuestions.length} questions on ${category}`
     );
 
-    const ready = this.promptProvider.ask(
+    const userReadyAnswer = this.promptProvider.ask(
       "Are you ready? Press y and Enter to start. ",
       "",
       {
         echo: "",
       }
     );
-    if (ready === "y") {
+
+    if (this.isCandidateReady(userReadyAnswer)) {
       this.logger.log(`\nLet's go!\n`);
       this.logger.log("***************** Questions *****************\n");
-      Q?.forEach((quest) => {
-        const a = this.promptProvider.ask(quest.label + " ", "", {});
-        R.push({ question: quest, answer: a });
+      currentQuestions?.forEach((quest) => {
+        const answer = this.promptProvider.ask(quest.label + " ", "", {});
+        registeredAnswers.push({ question: quest, answer });
       });
       this.logger.log("\nThank you for your participation!\n");
     }
+
     this.logger.log(
       `\n***************** Response from: ${
         this.getCandidate().firstName
       } *****************\n`
     );
-    let s = 0.0;
-    R?.forEach((r) => {
-      const q = r?.question;
+    let score = 0.0;
+    registeredAnswers?.forEach((registeredAnswer) => {
+      const question = registeredAnswer?.question;
       this.logger.log(
-        `> Question: ${r.question.label} \n>>> Response: ${r.answer}. \n`
+        `> Question: ${registeredAnswer.question.label} \n>>> Response: ${registeredAnswer.answer}. \n`
       );
-      const A = this.promptProvider.ask(
+      const userAnswer = this.promptProvider.ask(
         "----> What is your evaluation: t=true or f=false ? ",
         "",
         {}
       );
-      if (A === "t" || A === "T") {
-        switch (q?.difficulty) {
+
+      if (this.isValidAnswer(userAnswer)) {
+        switch (question?.difficulty) {
           case 1:
-            s += 0.25;
+            score += 0.25;
             break;
           case 2:
-            s += 0.5;
+            score += 0.5;
             break;
           case 3:
-            s += 0.75;
+            score += 0.75;
             break;
           case 4:
-            s += 1;
+            score += 1;
             break;
         }
       }
     });
-    return s;
+    return score;
+  }
+
+  isCandidateReady(ready) {
+    return ready === POSSIBLE_ANSWERS.READY;
+  }
+
+  isValidAnswer(answer) {
+    return answer === POSSIBLE_ANSWERS.GOOD[0] || POSSIBLE_ANSWERS[1];
   }
 }
 
