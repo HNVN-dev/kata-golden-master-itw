@@ -1,13 +1,14 @@
-const TECHNICAL_WORKSHOP = require("./technical-interview.js");
-const PromptSyncProvider = require("./dependencies/promptProvider/PromptSyncProvider.js");
-const ConsoleLogger = require("./dependencies/logger/ConsoleLogger.js");
+const TechnicalInterview = require("./technical-interview.js");
+// const PromptSyncProvider = require("./dependencies/promptProvider/PromptSyncProvider.js");
+// const ConsoleLogger = require("./dependencies/logger/ConsoleLogger.js");
 
 function runTechnicalInterview({ logger, promptProvider, questionsProvider }) {
-  const technicalWorkshop = TECHNICAL_WORKSHOP({
+  const technicalWorkshop = new TechnicalInterview({
     logger,
     promptProvider,
     questionsProvider,
   });
+
   technicalWorkshop.addCat("SQL");
   technicalWorkshop.addCandidate("Toto", "Titi", "titi@mail.fr");
 
