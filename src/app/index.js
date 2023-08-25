@@ -12,8 +12,7 @@ function runTechnicalInterview({ logger, promptProvider, questionsProvider }) {
   technicalWorkshop.addCat("SQL");
   technicalWorkshop.addCandidate("Toto", "Titi", "titi@mail.fr");
 
-  const SCORE = technicalWorkshop.run("Java");
-  logger.log(`The candidate as a total of ${SCORE} points.`);
+  technicalWorkshop.run("Java");
 }
 
 /* 
